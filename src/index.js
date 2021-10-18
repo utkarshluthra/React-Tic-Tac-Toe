@@ -20,6 +20,8 @@ class Square extends React.Component {
         this.state={
             squares: Array(9).fill(null),
             xIsNext: true,
+            firstPlayer: "First",
+            secondPlayer: "Second",
         }
     }
 
@@ -50,7 +52,7 @@ class Square extends React.Component {
         if (winner) {
           status = 'Winner: ' + winner;
         } else {
-          status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+          status = 'Next player: ' + (this.state.xIsNext ? this.state.firstPlayer : this.state.secondPlayer);
         }
 
   
