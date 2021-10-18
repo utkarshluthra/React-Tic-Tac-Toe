@@ -74,7 +74,7 @@ class Square extends React.Component {
             {this.renderSquare(7)}
             {this.renderSquare(8)}
           </div>
-          <h6>Created by Utkarsh Luthra with &#9829;</h6>
+          <h6>Created by Utkarsh Luthra</h6>
         </div>
       );
     }
