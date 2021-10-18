@@ -96,10 +96,12 @@ class Square extends React.Component {
               </div>
             </div>
 
-            <div>
-              <p className="name">Choose names:</p>
-              <input type="text" onChange={this.handleChangeFirst} name="firstPlayer" placeholder="First Player" />
-              <input type="text" onChange={this.handleChangeSecond} name="secondPlayer" placeholder="Second Player" />
+            <div className="section-input">
+              Choose names:
+              <br />
+              <input type="text" className="name" onChange={this.handleChangeFirst} name="firstPlayer" placeholder="First Player" />
+              <br />
+              <input type="text" className="name" onChange={this.handleChangeSecond} name="secondPlayer" placeholder="Second Player" />
             </div>
 
           </div>
