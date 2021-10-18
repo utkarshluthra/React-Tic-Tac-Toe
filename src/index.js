@@ -20,9 +20,12 @@ class Square extends React.Component {
         this.state={
             squares: Array(9).fill(null),
             xIsNext: true,
-            firstPlayer: "First",
-            secondPlayer: "Second",
+            firstPlayer: " ",
+            secondPlayer: " ",
         }
+
+        this.handleChangeFirst = this.handleChangeFirst.bind(this);
+        this.handleChangeSecond = this.handleChangeSecond.bind(this);
     }
 
     handleClick(i){
@@ -38,6 +41,18 @@ class Square extends React.Component {
         
     }
 
+    handleChangeFirst(event) {
+      this.setState({
+        firstPlayer: event.target.value,
+      });
+    }
+
+    handleChangeSecond(event) {
+      this.setState({
+        secondPlayer: event.target.value,
+      });
+    }
+
     renderSquare(i) {
       return (
       <Square 
@@ -47,7 +62,7 @@ class Square extends React.Component {
     }
   
     render() {
-      const winner = calculateWinner(this.state.squares);
+      const winner = calculateWinner(this.state.squares, this.state);
         let status;
         if (winner) {
           status = 'Winner: ' + winner;
@@ -58,24 +73,37 @@ class Square extends React.Component {
   
       return (
         <div>
-        <h1>Tic Tac Toe</h1>
-        
-          <div className="status">{status}</div>
-          <div className="board-row">
-            {this.renderSquare(0)}
-            {this.renderSquare(1)}
-            {this.renderSquare(2)}
+          <h1>Tic Tac Toe</h1>
+
+          <div className="play">
+
+            <div>
+              <div className="status">{status}</div>
+              <div className="board-row">
+                {this.renderSquare(0)}
+                {this.renderSquare(1)}
+                {this.renderSquare(2)}
+              </div>
+              <div className="board-row">
+                {this.renderSquare(3)}
+                {this.renderSquare(4)}
+                {this.renderSquare(5)}
+              </div>
+              <div className="board-row">
+                {this.renderSquare(6)}
+                {this.renderSquare(7)}
+                {this.renderSquare(8)}
+              </div>
+            </div>
+
+            <div>
+              <p className="name">Choose names:</p>
+              <input type="text" onChange={this.handleChangeFirst} name="firstPlayer" placeholder="First Player" />
+              <input type="text" onChange={this.handleChangeSecond} name="secondPlayer" placeholder="Second Player" />
+            </div>
+
           </div>
-          <div className="board-row">
-            {this.renderSquare(3)}
-            {this.renderSquare(4)}
-            {this.renderSquare(5)}
-          </div>
-          <div className="board-row">
-            {this.renderSquare(6)}
-            {this.renderSquare(7)}
-            {this.renderSquare(8)}
-          </div>
+
           <h6>Created by Utkarsh Luthra</h6>
         </div>
       );
@@ -104,7 +132,7 @@ class Square extends React.Component {
     <Game />,
     document.getElementById('root')
   );
-  function calculateWinner(squares) {
+  function calculateWinner(squares, player) {
     const lines = [
       [0, 1, 2],
       [3, 4, 5],
@@ -118,7 +146,10 @@ class Square extends React.Component {
     for (let i = 0; i < lines.length; i++) {
       const [a, b, c] = lines[i];
       if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-        return squares[a];
+        if(squares[a] === 'X')
+          return player.firstPlayer;
+        else
+          return player.secondPlayer;
       }
     }
     return null;
