@@ -22,23 +22,33 @@ class Square extends React.Component {
             xIsNext: true,
             firstPlayer: " ",
             secondPlayer: " ",
+            win: false,
         }
 
         this.handleChangeFirst = this.handleChangeFirst.bind(this);
         this.handleChangeSecond = this.handleChangeSecond.bind(this);
     }
 
-    handleClick(i){
+    handleClick(i, winner){
+
+        if(winner)
+          this.setState({win: true});
+
         const squares = this.state.squares.slice();
-        if (calculateWinner(squares) || squares[i]){
+        if (this.state.win || squares[i]){
             return;
         }
-        squares[i] = this.state.xIsNext ? 'X' : 'O';
+
+        if(winner){
+          squares[i] = '';
+        }
+        else
+          squares[i] = this.state.xIsNext ? 'X' : 'O';
+
         this.setState({
             squares: squares,
             xIsNext: !this.state.xIsNext,
-        });
-        
+        });  
     }
 
     handleChangeFirst(event) {
@@ -53,11 +63,11 @@ class Square extends React.Component {
       });
     }
 
-    renderSquare(i) {
+    renderSquare(i, winner) {
       return (
       <Square 
-        value={this.state.squares[i]} 
-        onClick={()=>{this.handleClick(i)}}
+        value={this.state.win ? this.state.squares[i] : this.state.squares[i]} 
+        onClick={()=>{this.handleClick(i, winner)}}
       />);
     }
   
@@ -66,6 +76,7 @@ class Square extends React.Component {
         let status;
         if (winner) {
           status = 'Winner: ' + winner;
+
         } else {
           status = 'Next player: ' + (this.state.xIsNext ? this.state.firstPlayer : this.state.secondPlayer);
         }
@@ -80,19 +91,19 @@ class Square extends React.Component {
             <div>
               <div className="status">{status}</div>
               <div className="board-row">
-                {this.renderSquare(0)}
-                {this.renderSquare(1)}
-                {this.renderSquare(2)}
+                {this.renderSquare(0, winner)}
+                {this.renderSquare(1, winner)}
+                {this.renderSquare(2, winner)}
               </div>
               <div className="board-row">
-                {this.renderSquare(3)}
-                {this.renderSquare(4)}
-                {this.renderSquare(5)}
+                {this.renderSquare(3, winner)}
+                {this.renderSquare(4, winner)}
+                {this.renderSquare(5, winner)}
               </div>
               <div className="board-row">
-                {this.renderSquare(6)}
-                {this.renderSquare(7)}
-                {this.renderSquare(8)}
+                {this.renderSquare(6, winner)}
+                {this.renderSquare(7, winner)}
+                {this.renderSquare(8, winner)}
               </div>
             </div>
 
@@ -134,6 +145,7 @@ class Square extends React.Component {
     <Game />,
     document.getElementById('root')
   );
+
   function calculateWinner(squares, player) {
     const lines = [
       [0, 1, 2],
